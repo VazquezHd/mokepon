@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Lemon&family=Montserrat:wght@300&display=swap');
+
+body{
+    
+    font-family: 'Montserrat', sans-serif;
+    background-color: #112B3C;
+}
+
+#seleccionar-mascota{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.titulo{
+    color: white;
+    font-size: 36px;
+    font-family: 'Lemon', cursive;
+    
+}
+
+
+
+.subtitulo{
+    font-size: 28px;
+    color: white;
+
+}
+
+.tarjetas, .tarjetas-ataques{
+    display: flex;
+    gap: 10px;
+}
+
+
+.tarjeta-de-mokepon{
+    width: 180px;
+    height: 120px;
+    background: #205375;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 10px;
+    border: 1px solid #F66B0E;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+    #boton-mascota {
+    width: 180px;
+    height: 40px;
+    border-radius: 20px;
+    margin-top: 30px;
+    background: transparent;
+    border: 3px solid #F66B0E;
+    color: #F66B0E;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.tarjeta-de-mokepon img{
+    width: 80px;
+
+}
+
+input {
+    display: none;
+}
+input:checked + label{
+    background-color: #2A968C;
+
+}
+
+
+#seleccionar-ataque{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.boton-de-ataque{
+    background-color: #205375;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    border-color: transparent;
+    width: 100px;
+    color: white;
+}
+
+#mensajes{
+    width: 282px;
+    background: #3D1817;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#boton-reiniciar{
+    width: 86px;
+    border: none;
+    background-color:#2D618A;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 5px;
+
+}
+.ataques{
+    display: grid;
+    grid-template-columns: 100px 100px;
+    color: white;
+    text-align: center;
+}
+
+#vidas-jugador, #vidas-enemigo {
+    font-size: 32px;
+    margin-bottom: 0;
+}
+
+.ataques-jugador, .ataques-enemigo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 360px) {
+    .tarjetas, .tarjetas-ataques {
+        flex-direction: column;
+    }
+}
