@@ -18,7 +18,7 @@ const ataquesDelJugador = document.getElementById('ataques-del-jugador')
 const ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
 const contenedorTarjetas = document.getElementById('contenedorTarjetas')
 const contenedorAtaques = document.getElementById('contenedorAtaques') 
-
+//DFGFDGFDGDFGDFGD
 let mokepones = [] //corchetes cuadrados es un arreglo
 let ataqueJugador = [] 
 let ataqueEnemigo = [] 
