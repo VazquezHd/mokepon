@@ -89,7 +89,7 @@ input:checked + label{
     border-radius: 20px;
     font-family: 'Montserrat', sans-serif;
     border-color: transparent;
-    width: 100px;
+    width: 80px;
     color: white;
 }
 
