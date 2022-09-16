@@ -22,6 +22,8 @@ const contenedorAtaques = document.getElementById('contenedorAtaques')
 const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
 
+//DFGFDGFDGDFGDFGD
+
 let mokepones = [] //corchetes cuadrados es un arreglo
 let ataqueJugador = [] 
 let ataqueEnemigo = [] 
