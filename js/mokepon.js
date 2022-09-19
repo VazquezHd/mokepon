@@ -22,16 +22,17 @@ const contenedorAtaques = document.getElementById('contenedorAtaques')
 const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
 
-//DFGFDGFDGDFGDFGD
+
 
 let mokepones = [] //corchetes cuadrados es un arreglo
 let ataqueJugador = [] 
 let ataqueEnemigo = [] 
 let opcionDeMokepones
 let inputHipodoge
-let inputCapipepo
+let inputmascotaJugadorObjeto
 let inputRatigueya
 let mascotaJugador
+let mascotaJugadorObjeto
 let ataquesMokepon
 let ataquesMokeponEnemigo
 let botonFuego
@@ -45,26 +46,44 @@ let victoriasEnemigo = 0
 let vidasJugador = 3  
 let vidasEnemigo = 3
 let lienzo = mapa.getContext("2d")
+let intervalo
+let mapaBackground = new Image()
+mapaBackground.src = './assets/mokemap.png'
 
 //esto es una clase y dentro esta un objeto con diferentes priopiedades
 class Mokepon {
-    constructor(nombre, foto, vida){
+    constructor(nombre, foto, vida, fotoMapa, x = 10, y = 10){
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.ataques = []
-        this.x = 20
-        this.y = 30
-        this.ancho = 80
-        this.alto = 80
+        this.x = x
+        this.y = y
+        this.ancho = 40
+        this.alto = 40
         this.mapaFoto = new Image ()
-        this.mapaFoto.src = foto 
-    }
+        this.mapaFoto.src = fotoMapa
+        this.velocidadX = 0
+        this.velocidadY = 0
+     }
+     pintarMokepon(){
+        lienzo.drawImage(
+            this.mapaFoto,
+            this.x,
+            this.y,
+            this.ancho,
+            this.alto,
+        )
+     }
 }
 //objetos de esa clase
-let hipodoge = new Mokepon ('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5)
-let capipepo = new Mokepon ('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png' , 5)
-let ratigueya = new Mokepon ('Ratigueya', './assets/mokepons_mokepon_ratigueya_attack.png', 5)
+let hipodoge = new Mokepon ('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5, './assets/hipodoge.png' )
+let capipepo = new Mokepon ('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png' , 5, './assets/capipepo.png')
+let ratigueya = new Mokepon ('Ratigueya', './assets/mokepons_mokepon_ratigueya_attack.png', 5, './assets/ratigueya.png')
+
+let hipodogeEnemigo = new Mokepon ('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.png', 5, './assets/hipodoge.png', 80, 120 )
+let capipepoEnemigo = new Mokepon ('Capipepo', './assets/mokepons_mokepon_capipepo_attack.png' , 5, './assets/capipepo.png', 150,95)
+let ratigueyaEnemigo = new Mokepon ('Ratigueya', './assets/mokepons_mokepon_ratigueya_attack.png', 5, './assets/ratigueya.png', 200,190)
 
 hipodoge.ataques.push(
     {nombre: '💧', id: 'boton-agua'},
@@ -122,11 +141,7 @@ function seleccionarMascotaJugador(){
     sectionSeleccionarMascota.style.display = 'none'
     //sectionSeleccionarAtaque.style.display = 'flex'
 
-    //esto es canvas
-    sectionVerMapa.style.display = 'flex'
-
-
-
+    
 
         //else if son condicionales, como tenemos varias secciones, colocamos "si no es esta opcion es eCapipeposta otra" y de ese modo podemos ir de una a otra seleccion
     if (inputHipodoge.checked) {
@@ -143,6 +158,11 @@ function seleccionarMascotaJugador(){
     }
 
     extraerAtaques(mascotaJugador)
+
+    //esto es canvas
+    sectionVerMapa.style.display = 'flex'
+    iniciarMapa()
+
     seleccionarMascotaEnemigo()  //debemos de llamar a esta funcion ya que la vamos a declarar mas abajo
 }
 
@@ -216,23 +236,6 @@ function seleccionarMascotaEnemigo() {       //declaramos la funcion, le damos l
     // }
 }
        
-
-
-//creamos las funciones para el ataque del enemigo, ya que como es aleatoreidad le damos su propiedad para que sea un ataque aleatorio
-
-
-// function ataqueFuego() {
-//     ataqueJugador = 'Fuego 🔥'
-//     ataqueAleatorioEnemigo()
-// }
-// function ataqueAgua() {
-//     ataqueJugador = 'Agua 💧'
-//     ataqueAleatorioEnemigo()
-// }
-// function ataqueTierra () {
-//     ataqueJugador = 'Tierra 🌱'
-//     ataqueAleatorioEnemigo() 
-// }
 function ataqueAleatorioEnemigo() {
     //esta funcion no se quita porque nos esta indicando aleatoriedad
 
@@ -349,22 +352,88 @@ function reiniciarJuego (){
 function aleatorio(min,max){
     return Math.floor(Math.random()*(max - min + 1)+ min)
 }
+// ctrl d para seleccionar varias lineas de codigo con el mismo texto
+function pintarCanvas() { //le das velocidad al objeto en el mapa
 
-function pintarPersonaje() {
+    mascotaJugadorObjeto.x = mascotaJugadorObjeto.x + mascotaJugadorObjeto.velocidadX
+    mascotaJugadorObjeto.y = mascotaJugadorObjeto.y + mascotaJugadorObjeto.velocidadY
     lienzo.clearRect(0, 0, mapa.width, mapa.height)
     lienzo.drawImage(
-        capipepo.mapaFoto,
-        capipepo.x,
-        capipepo.y,
-        capipepo.ancho,
-        capipepo.alto,
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height,
     )
+    mascotaJugadorObjeto.pintarMokepon() 
+    hipodogeEnemigo.pintarMokepon() 
+    capipepoEnemigo.pintarMokepon() 
+    ratigueyaEnemigo.pintarMokepon() 
+  
+}
+function moverDerecha() {
+    mascotaJugadorObjeto.velocidadX = 5
+}
+function moverIzquierda() {
+    mascotaJugadorObjeto.velocidadX = -5
+}
+function moverAbajo() {
+    mascotaJugadorObjeto.velocidadY = 5
 }
 
-function moverCapipepo() {
-    capipepo.x = capipepo.x + 5
-    pintarPersonaje()
+function moverArriba() {
+    mascotaJugadorObjeto.velocidadY = -5
 }
+function detenerMovimiento(){
+    
+    mascotaJugadorObjeto.velocidadX = 0
+    mascotaJugadorObjeto.velocidadY = 0
+}
+
+function sePresionoUnaTecla(event){
+    //un switch es una maner de hacer varios condicionales if juntos
+   switch (event.key) {
+    case 'ArrowUp':
+        moverArriba()
+        break;
+    case 'ArrowDown':
+        moverAbajo()
+        break;
+    case  'ArrowLeft':
+        moverIzquierda()
+        break;
+    case  'ArrowRight':
+        moverDerecha()
+        break;
+
+    default:
+        break;
+   }
+}
+
+function iniciarMapa(){
+    mapa.width = 300
+    mapa.height = 220
+    mascotaJugadorObjeto = obtenerObjetoMascota(mascotaJugador)
+    intervalo = setInterval(pintarCanvas, 50)
+
+
+    window.addEventListener('keydown', sePresionoUnaTecla)
+    window.addEventListener('keyup', detenerMovimiento)
+}
+
+function obtenerObjetoMascota(){
+    for (let i = 0; i < mokepones.length; i++) {
+
+        if (mascotaJugador === mokepones[i].nombre) {
+            return mokepones[i]
+        } 
+    }
+}
+
+
+
+
 //desde aqui le pedimos que escuche cuando cargue la pagina para que inicie el juego
 window.addEventListener('load', iniciarJuego)
    
