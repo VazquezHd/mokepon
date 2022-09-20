@@ -1,7 +1,8 @@
 const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
 const sectionReiniciar = document.getElementById('reiniciar')
 const botonMascotaJugador = document.getElementById('boton-mascota') 
-const botonReiniciar = document.getElementById ('boton-reiniciar')
+const botonReiniciar=document.getElementById('boton-reiniciar')
+sectionReiniciar.style.display = 'none'
 sectionSeleccionarAtaque.style.display = 'none'
 
 
@@ -93,6 +94,14 @@ hipodoge.ataques.push(
     {nombre: '🌱', id: 'boton-tierra'},
 )
 
+hipodogeEnemigo.ataques.push(
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🌱', id: 'boton-tierra'},
+)
+
 capipepo.ataques.push(
     {nombre: '🌱', id: 'boton-tierra'},
     {nombre: '🌱', id: 'boton-tierra'},
@@ -101,7 +110,23 @@ capipepo.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'},   
 )
 
+capipepoEnemigo.ataques.push(
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},   
+)
+
 ratigueya.ataques.push(
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '💧', id: 'boton-agua'},
+)
+
+ratigueyaEnemigo.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'},
     {nombre: '🔥', id: 'boton-fuego'},
     {nombre: '🔥', id: 'boton-fuego'},
@@ -139,7 +164,7 @@ function iniciarJuego(){
 }
 function seleccionarMascotaJugador(){   
     sectionSeleccionarMascota.style.display = 'none'
-    //sectionSeleccionarAtaque.style.display = 'flex'
+    
 
     
 
@@ -163,7 +188,7 @@ function seleccionarMascotaJugador(){
     sectionVerMapa.style.display = 'flex'
     iniciarMapa()
 
-    seleccionarMascotaEnemigo()  //debemos de llamar a esta funcion ya que la vamos a declarar mas abajo
+     
 }
 
 function extraerAtaques(mascotaJugador){
@@ -218,22 +243,19 @@ function secuenciaAtaque() {
     })
 }
 
-function seleccionarMascotaEnemigo() {       //declaramos la funcion, le damos la propiedad de aletoreidad
-
-     let mascotaAleatoria = aleatorio(0,mokepones.length -1)
-
-    spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatoria].nombre
-    ataquesMokeponEnemigo = mokepones[mascotaAleatoria].ataques
+function seleccionarMascotaEnemigo(enemigo) {   
+    spanMascotaEnemigo.innerHTML = enemigo.nombre
+    ataquesMokeponEnemigo = enemigo.ataques
     secuenciaAtaque()
 
-    // if (mascotaAleatoria==1){
-    //     spanMascotaEnemigo.innerHTML = 'Hipodoge'
-    // }
-    // else if (mascotaAleatoria==2) {
-    //    spanMascotaEnemigo.innerHTML='Capipepo'
-    // } else{
-    //     spanMascotaEnemigo.innerHTML='Ratigueya'
-    // }
+    
+    //declaramos la funcion, le damos la propiedad de aletoreidad
+    // let mascotaAleatoria = aleatorio(0,mokepones.length -1)
+
+    /* spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatoria].nombre
+    ataquesMokeponEnemigo = mokepones[mascotaAleatoria].ataques
+    secuenciaAtaque() */
+
 }
        
 function ataqueAleatorioEnemigo() {
@@ -342,8 +364,8 @@ function crearMensajeFinal(resultadoFinal){
      sectionReiniciar.style.display = 'block'
 }
 
-function reiniciarJuego (){
-    location.reload ()
+function reiniciarJuego(){
+    location.reload()
 }
 
 
@@ -369,7 +391,14 @@ function pintarCanvas() { //le das velocidad al objeto en el mapa
     hipodogeEnemigo.pintarMokepon() 
     capipepoEnemigo.pintarMokepon() 
     ratigueyaEnemigo.pintarMokepon() 
-  
+        if
+        (mascotaJugadorObjeto.velocidadX !== 0 || mascotaJugadorObjeto.velocidadY !==0)
+        {
+            revisarColision(hipodogeEnemigo)
+            revisarColision(capipepoEnemigo)
+            revisarColision(ratigueyaEnemigo)
+        }
+
 }
 function moverDerecha() {
     mascotaJugadorObjeto.velocidadX = 5
@@ -431,8 +460,41 @@ function obtenerObjetoMascota(){
     }
 }
 
+//no entendi lo de los cuadros
+function revisarColision(enemigo){
+    
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+    const izquierdaEnemigo = enemigo.x
 
 
+    const arribaMascota =
+     mascotaJugadorObjeto.y
+    const abajoMascota =
+     mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
+    const derechaMascota = 
+    mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
+    const izquierdaMascota =
+     mascotaJugadorObjeto.x
+
+
+    if(
+        abajoMascota < arribaEnemigo ||
+        arribaMascota > abajoEnemigo ||
+        derechaMascota < izquierdaEnemigo ||
+        izquierdaMascota > derechaEnemigo
+    ){
+        return
+    }
+
+    detenerMovimiento()
+    clearInterval(intervalo)
+    sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = 'none'
+    seleccionarMascotaEnemigo(enemigo)
+    
+}
 
 //desde aqui le pedimos que escuche cuando cargue la pagina para que inicie el juego
 window.addEventListener('load', iniciarJuego)
